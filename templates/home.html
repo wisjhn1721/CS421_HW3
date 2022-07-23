@@ -6,27 +6,68 @@
 {% block content %}
 
     <div class="m-4">
-        <form method="POST" action="{{ url_for('home')}}">
-            <div>
-                {{ form.name.label }}: {{ form.name }}
-                <ul>
-                    {%  for error in form.name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div>
-                {{ form.grade.label }}: {{ form.grade }}
-                 <ul>
-                    {%  for error in form.grade.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div>{{ form.submit }}</div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <div class="">
+            <h2>Instructions:</h2>
+            <ol>
+                <li>Enter your student's grades below.</li>
+                <li>To see all the student grades you've entered click Student Grades in the nav bar.</li>
+                <li>To see all the student who are passing click Passing Students in the nav bar.</li>
+                <li>To remove a student enter their ID in the textbox below and click remove.</li>
+                <li>To update a student record click Student Grades in the nav bar and fill out the form below the table</li>
+            </ol>
+        </div>
 
-            {{  form.csrf_token }}
-        </form>
+        <h2 class="mt-5">Submit Grades:</h2>
+        <div class="student-form">
+            <form method="POST" action="{{ url_for('home')}}">
+                <div class="mb-3">
+                    {{ form.name.label(class="form-label") }} {{ form.name }}
+                    <ul>
+                        {%  for error in form.name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    {{ form.grade.label(class="form-label") }} {{ form.grade }}
+                     <ul>
+                        {%  for error in form.grade.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {{ form.submit }}
+
+                {{  form.csrf_token }}
+            </form>
+        </div>
+
+        <h2 class="mt-5">Remove Grades:</h2>
+        <div class="student-form">
+            <form method="POST" action="{{ url_for('remove')}}">
+                <div class="mb-3">
+                    {{ remove_form.id.label(class="form-label") }} {{ remove_form.id }}
+                    <ul>
+                        {%  for error in remove_form.id.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {{ remove_form.submit }}
+                {{  remove_form.csrf_token }}
+            </form>
+        </div>
+
     </div>
 
 {% endblock content %}
