@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock title%}
+{% block content %}
+
+    <div class="m-4">
+        <form method="POST" action="{{ url_for('home')}}">
+            <div>
+                {{ form.name.label }}: {{ form.name }}
+                <ul>
+                    {%  for error in form.name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                {{ form.grade.label }}: {{ form.grade }}
+                 <ul>
+                    {%  for error in form.grade.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>{{ form.submit }}</div>
+
+            {{  form.csrf_token }}
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block sidebar %}
+    <div class="content-section">
+        <h3>Welcome!</h3>
+        <p class='text-muted'>Check out my social media:</p>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light">
+                <a href="https://github.com/wisjhn1721">Github</a>
+            </li>
+            <li class="list-group-item list-group-item-light">
+                <a href="https://www.linkedin.com/in/john-wise-6a9ba3218/">LinkedIn</a>
+            </li>
+        </ul>
+    </div>
+{% endblock sidebar %}
